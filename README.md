@@ -1,7 +1,7 @@
 # ExceptionHandler
  This is a global exception handler library for ASP.NET Core projects.
  
- ### How do I get started?
+ ## How do I get started?
  
  Configuring **TanvirArjel.ExceptionHandler** into your ASP.NET Core project is as simple as below:
  
@@ -34,3 +34,27 @@
         }
         
   **You are done!**
+  
+  ## How do I manipulate logged in exceptions.
+  
+  To manipulate logged in exceptions, use `IExceptionService` provied by this library as follows which provides all the necessary methods to manipulate logged in exceptions:
+  
+    using TanvirArjel.ExceptionHandler.Services;
+  
+    public class ExceptionController : Controller
+    {
+        private readonly IExceptionService _exceptionService;
+       
+        public ExceptionController(IExceptionService exceptionService)
+        {
+            _exceptionService = exceptionService;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ExceptionDetails(long exceptiondId)
+        {
+            ExceptionModel exceptionDetails = await _exceptionService.GetExceptionAsync(exceptiondId);
+            return View(exceptionDetails);
+        }
+     }
+  
