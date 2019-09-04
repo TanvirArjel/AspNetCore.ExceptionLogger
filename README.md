@@ -35,7 +35,7 @@
         
   **You are done!**
   
-  ## How do I manipulate logged in exceptions.
+  ## How do I manipulate logged in exceptions?
   
   To manipulate logged in exceptions, use `IExceptionService` interface provied by this library as follows which provides all the necessary methods to manipulate logged in exceptions:
   
@@ -56,5 +56,7 @@
             ExceptionModel exceptionDetails = await _exceptionService.GetExceptionAsync(exceptiondId);
             return View(exceptionDetails);
         }
-     }
+    }
+    
+For more details you can see the [Demo](https://github.com/TanvirArjel/ExceptionHandler/tree/master/demo/ExceptionHandler.Demo) project.
   
