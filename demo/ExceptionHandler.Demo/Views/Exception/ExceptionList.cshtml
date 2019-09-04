@@ -1,0 +1,284 @@
+﻿@{
+    ViewData["Title"] = "Exception List";
+
+}
+<link href="~/lib/datatables/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<style>
+    table td:last-child, table td:nth-child(3) {
+        width: 100px;
+        text-align: center;
+    }
+</style>
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="d-inline-block mb-0">
+            <strong>Exception List</strong>
+        </h3>
+    </div>
+    <div class="card-body p-2">
+        <table id="exceptionDataTable" cellspacing="0" class="table table-bordered align-middle" style="width: 100%;">
+            <thead>
+                <tr>
+                    <th>
+                        <a class="text-danger" href="" id="delete-exceptions" onclick="return false">
+                            <i class="fa fa-fw fa-trash-alt"></i>
+                        </a>
+                    </th>
+                    <th style="width: 10px" class="text-center">SL</th>
+                    <th>
+                        <select class="form-control">
+                            <option value="">Select Status</option>
+                            <option value="true">Fixed</option>
+                            <option value="false">Not Fixed</option>
+                        </select>
+                    </th>
+                    <th>Exception Time</th>
+                    <th>Requested Url</th>
+                    <th>Controller Name</th>
+                    <th>Action Name</th>
+                    <th>Exception Message</th>
+                    <th>Inner Exception Message</th>
+
+                    <th class="text-center">
+                        <div style="display: inline-block; width: 100px">
+                            Action
+                        </div>
+                    </th>
+                </tr>
+                <tr>
+                    <th><input type="checkbox" name="all-select" value="exception"></th>
+                    <th>SL</th>
+                    <th class="text-center" style="min-width: 120px">Is Fixed</th>
+                    <th style="min-width: 170px">Exception Time</th>
+                    <th style="min-width: 400px">Requested Url</th>
+                    <th style="min-width: 140px">Controller Name</th>
+                    <th style="min-width: 150px">Action Name</th>
+                    <th style="min-width: 380px">Exception Message</th>
+                    <th style="min-width: 380px">
+                        InnerExceptionMessage
+                    </th>
+
+                    <th class="text-center" style="min-width: 100px">
+                        <div style="display: inline-block; width: 110px">Action</div>
+                    </th>
+                </tr>
+            </thead>
+            <tfoot>
+                <tr>
+                    <th>
+                        <input type="checkbox" name="all-select" value="exception">
+                    </th>
+                    <th>SL</th>
+                    <th class="text-center" style="min-width: 120px">Is Fixed</th>
+                    <th style="min-width: 170px">Exception Time</th>
+                    <th style="min-width: 400px">Requested Url</th>
+                    <th style="min-width: 140px">Controller Name</th>
+                    <th style="min-width: 150px">Action Name</th>
+                    <th style="min-width: 380px">Exception Message</th>
+                    <th style="min-width: 380px">
+                        InnerExceptionMessage
+                    </th>
+
+                    <th style="min-width: 100px">
+                        <div style="display: inline-block; width: 110px">Action</div>
+                    </th>
+                </tr>
+            </tfoot>
+
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exceptionsDeleteModal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="exampleModalLabel">
+                    <strong>Delete Exceptions</strong>
+                </h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-danger">
+                    <strong>Delete!</strong> Are you sure you want to delete these selected rows!
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">
+                    <i class="fa fa-fw fa-times"></i> No! Close
+                </button>
+                <button type="button" id="delete-exceptions-confirmation" class="btn btn-danger">
+                    <i class="fa fa-fw fa-trash-alt"></i> Yes! Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/lib/datatables/js/jquery.dataTables.min.js"></script>
+    <script src="~/lib/datatables/js/dataTables.bootstrap4.min.js"></script>
+    <script src="~/lib/moment.js/moment.min.js"></script>
+    <script>
+  $(document).ready(function () {
+    // Setup - add a text input to each header cell
+
+    jQuery('#exceptionDataTable thead tr:eq(0) th:not(:last,:first,:nth-child(2),:nth-child(3),:nth-child(4))').each(function () {
+      const title = jQuery(this).text();
+      jQuery(this).html('<input class="form-control" type="text" placeholder="Search ' + title + '" />');
+    });
+
+    var dataTable = $("#exceptionDataTable").DataTable({
+      'processing': true,
+      'serverSide': true,
+      "order": [[3, 'desc']],
+      'ajax': {
+        'url': '@Url.Action("LoadExceptionListForDataTable","Exception")',
+        'method': 'POST',
+        'contentType': 'application/json',
+          'data': function (d) {
+          return JSON.stringify(d);
+        }
+      },
+      "lengthMenu": [[10, 20, 30, 40], [10, 20, 30, 40]],
+      "scrollX": true,
+      //fixedColumns: {
+      //  leftColumns: 2,
+      //  rightColumns: 1
+      //},
+      'columns': [
+        {
+          data: 'exceptionId', name: 'ExceptionId', orderable: false, searchable: false,
+          render: function (data, type, row, meta) {
+            return '<input type="checkbox" name="delete-exception" value="' + data + '">';
+          }
+        },
+        {
+          data: 'exceptionId', name: 'ExceptionId', orderable: false, searchable: false,
+          render: (data, type, row, meta) => meta.settings._iDisplayStart + meta.row + 1
+          },
+          {
+              data: "isFixed", name: "IsFixed",
+              render: function(data, type, row, meta) {
+                  if (data) {
+                      return '<span class="badge badge-success">Fixed</span>';
+                  } else {
+                      return '<span class="badge badge-danger">Not Fixed</span>';
+                  }
+              }
+          },
+        {
+              data: "exceptionTime", name: "ExceptionTime", render: function (data, type, row, meta) {
+              return moment.utc(data).local().format('DD-MMM-YYYY hh:mm:ss A');
+          }
+        },
+        { data: "requestedUrl", name: "RequestedUrl" },
+        { data: "controllerName", name: "ControllerName" },
+        { data: "actionName", name: "ActionName" },
+        { data: "exceptionMessage", name: "ExceptionMessage" },
+        { data: "innerExceptionMessage", name: "InnerExceptionMessage" },
+
+        {
+          data: "exceptionId", name: "ExceptionId", orderable: false, searchable: false,
+          render: function (data, type, row, meta) {
+            return '<a class ="btn btn-info btn-sm" target="_blank"  href="/admin/exception/exception-details/' + row.exceptionId + '"><i class="fas fa-info-circle"></i></a>' + ' ' +
+              '<a class ="btn btn-primary btn-sm" href="/admin/exception/update-exception/' + row.exceptionId + '"><i class="fas fa-edit"></i></a>' + ' ' +
+              '<a class ="btn btn-danger btn-sm" href="/admin/exception/delete-exception/' + row.exceptionId + '"><i class="far fa-trash-alt"></i></a>';
+          }
+        }
+      ]
+    });
+
+    //Global Searching
+    jQuery('.dataTables_filter input').unbind().bind('focusout', function (e) {
+      dataTable.search(this['value']).draw();
+    });
+
+
+    // Individual Column Searching In case of Some Fixed Column
+    jQuery(dataTable.table().container()).on('focusout', 'thead input[type="text"]', function () {
+      dataTable.column(jQuery(this).parent().index() + ':visible')
+        .search(this.value)
+        .draw();
+    });
+
+    // Select List filtering
+    jQuery(dataTable.table().container()).on('change', 'thead select', function () {
+      dataTable.column(jQuery(this).parent().index() + ':visible')
+        .search(this.value)
+        .draw();
+    });
+
+    function uniqueArray(array) {
+      return array.filter(function (el, index, arr) {
+        return index === arr.indexOf(el);
+      });
+    }
+    // Select all for delete
+    jQuery(dataTable.table().container()).on('change', 'input[type="checkbox"][name="all-select"]', function () {
+      if ($(this).prop('checked')) {
+        $(".DTFC_Cloned input[name='delete-exception']").prop('checked', true);
+      } else {
+        $(".DTFC_Cloned input[name='delete-exception']").prop('checked', false);
+      }
+    });
+
+    // Select individual for delete
+    jQuery(dataTable.table().container()).on('change', 'tbody input[type="checkbox"][name="delete-exception"]', function () {
+      var selectedValues = [];
+      $("input[name='delete-exception']:checked").each(function () {
+        selectedValues.push($(this).val());
+      });
+
+      var totalRowIntheBody = $('.DTFC_Cloned tbody input[type="checkbox"][name="delete-exception"]').length;
+      if (selectedValues.length < totalRowIntheBody) {
+        $('input[type="checkbox"][name="all-select"]').prop('checked', false);
+      } else {
+        $('input[type="checkbox"][name="all-select"]').prop('checked', true);
+      }
+    });
+
+
+    jQuery(dataTable.table().container()).on('click', 'thead #delete-exceptions', function () {
+      var selectedValues = [];
+      $("input[name='delete-exception']:checked").each(function() {
+        selectedValues.push($(this).val());
+      });
+      if (selectedValues.length > 0) {
+        $("#exceptionsDeleteModal").modal("show");
+      } else {
+        alert("No row selected to delete");
+      }
+    });
+
+    $(document).on("click","#delete-exceptions-confirmation", function() {
+      var selectedValues = [];
+      $("input[name='delete-exception']:checked").each(function () {
+        selectedValues.push($(this).val());
+      });
+      $.ajax({
+        url: '@Url.Action("DeleteMultipleException","Exception")',
+        type: 'POST',
+        data: { exceptionIds: selectedValues },
+        success: function(response) {
+          if (response) {
+            $("#exceptionsDeleteModal").modal("hide");
+            dataTable.ajax.reload(null, false);
+            $('input[type="checkbox"][name="all-select"]').prop('checked', false);
+          }
+        },
+        error: function() {
+          alert("There is some error! Please try again");
+        }
+      });
+    });
+
+  });
+    </script>
+}

@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="wwwroot\moment.js\**" />
+    <Content Remove="wwwroot\moment.js\**" />
+    <EmbeddedResource Remove="wwwroot\moment.js\**" />
+    <None Remove="wwwroot\moment.js\**" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+    <Folder Include="wwwroot\lib\datatables\css\" />
+    <Folder Include="wwwroot\lib\datatables\images\" />
+    <Folder Include="wwwroot\lib\datatables\js\" />
+    <Folder Include="wwwroot\lib\font-awesome\css\" />
+    <Folder Include="wwwroot\lib\font-awesome\js\" />
+    <Folder Include="wwwroot\lib\font-awesome\sprites\" />
+    <Folder Include="wwwroot\lib\font-awesome\webfonts\" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\TanvirArjel.ExceptionHandler\TanvirArjel.ExceptionHandler.csproj" />
+  </ItemGroup>
+
+</Project>
