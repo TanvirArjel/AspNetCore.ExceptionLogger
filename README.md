@@ -1,5 +1,5 @@
 # ExceptionHandler
- This is a global exception handler library for ASP.NET Core projects.
+ This is a global exception handler library for ASP.NET Core projects which will log all the exception occured in your application into a database table with all the necessary informations.
  
  ## How do I get started?
  
@@ -37,7 +37,7 @@
   
   ## How do I manipulate logged in exceptions.
   
-  To manipulate logged in exceptions, use `IExceptionService` provied by this library as follows which provides all the necessary methods to manipulate logged in exceptions:
+  To manipulate logged in exceptions, use `IExceptionService` interface provied by this library as follows which provides all the necessary methods to manipulate logged in exceptions:
   
     using TanvirArjel.ExceptionHandler.Services;
   
