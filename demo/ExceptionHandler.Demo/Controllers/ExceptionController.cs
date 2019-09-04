@@ -29,7 +29,7 @@ namespace ExceptionHandler.Demo.Controllers
         }
 
         // GET: Exception/Details/5
-        public async Task<IActionResult> Details(long id)
+        public async Task<IActionResult> ExceptionDetails(long id)
         {
             var exceptionModel = await _exceptionService.GetExceptionAsync(id);
             if (exceptionModel == null)
@@ -71,7 +71,7 @@ namespace ExceptionHandler.Demo.Controllers
         }
 
         // GET: Exception/Delete/5
-        public async Task<IActionResult> Delete(long id)
+        public async Task<IActionResult> DeleteException(long id)
         {
             var exceptionModel = await _exceptionService.GetExceptionAsync(id);
             if (exceptionModel == null)

@@ -187,9 +187,9 @@
         {
           data: "exceptionId", name: "ExceptionId", orderable: false, searchable: false,
           render: function (data, type, row, meta) {
-            return '<a class ="btn btn-info btn-sm" target="_blank"  href="/admin/exception/exception-details/' + row.exceptionId + '"><i class="fas fa-info-circle"></i></a>' + ' ' +
-              '<a class ="btn btn-primary btn-sm" href="/admin/exception/update-exception/' + row.exceptionId + '"><i class="fas fa-edit"></i></a>' + ' ' +
-              '<a class ="btn btn-danger btn-sm" href="/admin/exception/delete-exception/' + row.exceptionId + '"><i class="far fa-trash-alt"></i></a>';
+            return '<a class ="btn btn-info btn-sm" target="_blank"  href="/exception/exceptiondetails/' + row.exceptionId + '"><i class="fas fa-info-circle"></i></a>' + ' ' +
+              '<a class ="btn btn-primary btn-sm" href="/exception/updateexception/' + row.exceptionId + '"><i class="fas fa-edit"></i></a>' + ' ' +
+              '<a class ="btn btn-danger btn-sm" href="/exception/deleteexception/' + row.exceptionId + '"><i class="far fa-trash-alt"></i></a>';
           }
         }
       ]
