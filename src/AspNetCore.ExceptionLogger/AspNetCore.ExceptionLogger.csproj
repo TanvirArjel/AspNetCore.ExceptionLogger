@@ -1,0 +1,39 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <Authors>TanvirArjel</Authors>
+    <Company>Tanvir Ahmad Arjel</Company>
+    <Description>This is a global exception handler library for ASP.NET Core projects.</Description>
+    <PackageProjectUrl>https://github.com/TanvirArjel/ExceptionHandler</PackageProjectUrl>
+    <Copyright>2019 TanvirArjel</Copyright>
+    <RepositoryUrl>https://github.com/TanvirArjel/ExceptionHandler</RepositoryUrl>
+    <PackageTags>ASP.NET Core ExceptionHandler GlobalExcetionHandler</PackageTags>
+    <PackageReleaseNotes>This is a global exception handler library for ASP.NET Core projects.</PackageReleaseNotes>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FastMember" Version="1.5.0" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.CodeAnalysis.FxCopAnalyzers" Version="2.9.8">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\.editorconfig" Link=".editorconfig" />
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+
+</Project>

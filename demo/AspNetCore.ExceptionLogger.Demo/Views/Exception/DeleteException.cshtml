@@ -1,0 +1,113 @@
+﻿@using Newtonsoft.Json.Linq
+@model AspNetCore.ExceptionLogger.ExceptionModel
+
+@{
+    ViewData["Title"] = "Delete";
+
+}
+
+<div class="card">
+    <h3 class="card-header">Exception Details</h3>
+    <div class="card-body">
+        <div class="alert alert-danger">
+            <h3><strong>Delete!</strong> Are you sure you want to delete this?</h3>
+        </div>
+        <div class="form-group row">
+            <label asp-for="ExceptionTime" class="col-md-2"></label>
+            <div class="form-control col-md-10">
+                @Html.DisplayFor(model => model.ExceptionTime)
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="RequestedUrl" class="col-md-2"></label>
+            <div class="form-control col-md-10">
+                @Html.DisplayFor(model => model.RequestedUrl)
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="ControllerName" class="col-md-2"></label>
+            <div class="form-control col-md-10">
+                @Html.DisplayFor(model => model.ControllerName)
+            </div>
+        </div>
+        <div class="form-group row">
+            <label asp-for="ActionName" class="col-md-2"></label>
+            <div class="form-control col-md-10">
+                @Html.DisplayFor(model => model.ActionName)
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="ExceptionMessage" class="col-md-2"></label>
+            <div class="form-control col-md-10" style="height: auto">
+                @Html.DisplayFor(model => model.ExceptionMessage)
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="InnerExceptionMessage" class="col-md-2"></label>
+            <div class="form-control col-md-10" style="height: auto">
+                @{
+                    if (Model.InnerExceptionMessage != null)
+                    {
+                        @Model.InnerExceptionMessage
+                    }
+                    else
+                    {
+                        @:No Inner Exception
+                    }
+                }
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="StackTrace" class="col-md-2"></label>
+            <div class="form-control col-md-10" style="height: auto">
+                @Html.DisplayFor(model => model.StackTrace)
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="FormData" class="col-md-2"></label>
+            <div class="form-control col-md-10" style="height: auto">
+                @{
+                    if (Model.FormData != null)
+                    {
+                        JObject json = JObject.Parse(Model.FormData);
+                        <pre>@json</pre>
+                    }
+                    else
+                    {
+                        <span>No form data</span>
+                    }
+
+                }
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label asp-for="IsFixed" class="col-md-2"></label>
+            <div class="form-control col-md-10">
+                @{
+                    if (Model.IsFixed)
+                    {
+                        <span class="badge badge-primary">Fixed</span>
+                    }
+                    else
+                    {
+                        <span class="badge badge-danger">Not Fixed</span>
+                    }
+                }
+            </div>
+        </div>
+
+    </div>
+    <div class="card-footer">
+        <form asp-action="DeleteException">
+            <input type="hidden" asp-for="ExceptionId" />
+            <input type="submit" value="Delete" class="btn btn-danger" />
+            <a class="btn btn-primary" asp-action="ExceptionList">Back to List</a>
+        </form>
+    </div>
+</div>
